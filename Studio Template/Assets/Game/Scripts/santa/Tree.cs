@@ -1,0 +1,41 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+using DG.Tweening;
+
+public class Tree : MonoBehaviour
+{
+    [SerializeField]
+    int giftToDistribute;
+    [SerializeField]
+    GameObject treeDescription;
+
+    [SerializeField]
+    TextMeshPro gifText;
+    // Start is called before the first frame update
+    void Start()
+    {
+        gifText.text ="x"+ giftToDistribute.ToString();
+    }
+    
+    public void CheckGiftCount()
+    {
+        if(PlayerPickUpSystem.instance.curGifts>=giftToDistribute)
+        {
+            PlayerParticleSystem.instance.PlayCorrectVX();
+            UiManager.instance.TweenProgression(true);
+        }
+        else
+        {
+            PlayerParticleSystem.instance.PlayInCorrectVX();
+            UiManager.instance.TweenProgression(false);
+        }
+        treeDescription.transform.DOScaleY(0, 0.25f).SetEase(Ease.InOutSine);
+    }
+    public int treeGifts()
+    {
+        return giftToDistribute;
+    }
+
+}
