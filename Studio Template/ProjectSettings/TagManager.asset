@@ -9,6 +9,7 @@ TagManager:
   - Gift
   - Tree
   - EndPoint
+  - Multiplier
   layers:
   - Default
   - TransparentFX

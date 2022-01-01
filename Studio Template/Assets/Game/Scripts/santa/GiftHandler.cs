@@ -30,9 +30,8 @@ public class GiftHandler : MonoSingleton<GiftHandler>
         if (curBoxIndex == 0)
             giftPacks[curBoxIndex].FollowNext(Player);
         else
-        {
             giftPacks[curBoxIndex].FollowNext(giftPacks[curBoxIndex - 1].transform);
-        }
+        
         curBoxIndex++;
     }
     public void RemoveItem_CheckPoint(int amount)

@@ -31,13 +31,15 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
             GiftHandler.instance.AddNextBox(other.gameObject.GetComponent<GiftBox>());
             curGifts++;
             UiManager.instance.ChangeGiftValue();
-            //Destroy(other);
+           // Destroy(other);
         }
         if (other.gameObject.CompareTag("Tree"))
         {
             GetComponent<PlayerMovement>().StopPlayer();
             StartCoroutine(nameof(StopForDeliveringGifts),other);
+          //  Destroy(other);
         }
+
 
     }
 
@@ -62,5 +64,6 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
         giftTimerImage.fillAmount = 0;
         Anim.SetTrigger("Move");
         GetComponent<PlayerMovement>().StartPlayer();
+        Destroy(other);
     }
 }
