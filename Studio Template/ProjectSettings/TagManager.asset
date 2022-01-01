@@ -8,6 +8,7 @@ TagManager:
   - Destroyable
   - Gift
   - Tree
+  - EndPoint
   layers:
   - Default
   - TransparentFX

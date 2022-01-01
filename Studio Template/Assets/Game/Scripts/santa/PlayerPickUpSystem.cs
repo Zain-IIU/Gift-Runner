@@ -8,7 +8,7 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
 {
     Animator Anim;
 
-    [SerializeField] TextMeshPro countText;
+ 
     [SerializeField] GameObject treeDescription;
     [SerializeField] Image giftTimerImage;
     
@@ -17,9 +17,12 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
     {
         Anim = GetComponent<Animator>();
         curGifts = 0;
-        countText.text = "x" + curGifts.ToString();
+        UiManager.instance.ChangeGiftValue();
         giftTimerImage.fillAmount = 0;
     }
+
+
+    public void SetGiftCount(int value) => curGifts = value;
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Gift"))
@@ -27,12 +30,11 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
             
             GiftHandler.instance.AddNextBox(other.gameObject.GetComponent<GiftBox>());
             curGifts++;
-            countText.text = "x" + curGifts.ToString();
+            UiManager.instance.ChangeGiftValue();
             //Destroy(other);
         }
         if (other.gameObject.CompareTag("Tree"))
         {
-            Anim.SetTrigger("Stop");
             GetComponent<PlayerMovement>().StopPlayer();
             StartCoroutine(nameof(StopForDeliveringGifts),other);
         }
@@ -49,13 +51,14 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
         {
             GiftHandler.instance.RemoveItem_CheckPoint(other.gameObject.GetComponent<Tree>().treeGifts());
             curGifts -= other.gameObject.GetComponent<Tree>().treeGifts();
+            Debug.Log("AT CHECKPOINT");
         }
         else
         {
             GiftHandler.instance.ClearTheList();
             curGifts = 0;
         }
-        countText.text = "x" + curGifts.ToString();
+        UiManager.instance.ChangeGiftValue();
         giftTimerImage.fillAmount = 0;
         Anim.SetTrigger("Move");
         GetComponent<PlayerMovement>().StartPlayer();

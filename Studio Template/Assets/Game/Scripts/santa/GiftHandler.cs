@@ -46,18 +46,33 @@ public class GiftHandler : MonoSingleton<GiftHandler>
         }
         curBoxIndex = giftPacks.Count;
 
+        UiManager.instance.ChangeGiftValue();
     }
 
-    public void RemoveItems_Obstacle(Collider newCollider)
+    public void RemoveItems_Obstacle(int boxID)
     {
-        int location = 3;
+        int deletingIndex = -1;
+        int totalGifts = giftPacks.Count;
 
-        for (int i = location; i < giftPacks.Count; i++)
+        //finding the box
+        for (int i = 0; i < giftPacks.Count; i++)
         {
-            giftPacks[i].FollowNext(null);
-            giftPacks.RemoveAt(i);
+            if (giftPacks[i].getID() == boxID)
+            {
+                deletingIndex = i;
+                break;
+            }
         }
-        curBoxIndex = location;
+        //removing them
+        for (int i = deletingIndex; i < totalGifts; i++)
+        {
+
+            giftPacks[deletingIndex].gameObject.transform.DOScale(0, 0.35f);
+            giftPacks[deletingIndex].FollowNext(null);
+            giftPacks.RemoveAt(deletingIndex);
+        }
+        curBoxIndex = giftPacks.Count;
+        UiManager.instance.ChangeGiftValue(curBoxIndex);
     }
     public void ClearTheList()
     {

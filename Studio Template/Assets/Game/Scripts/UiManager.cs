@@ -12,9 +12,14 @@ public class UiManager : MonoSingleton<UiManager>
     [SerializeField] GameObject[] panelFailed;
 
     [SerializeField] Slider levelProgressionSlider;
+    [SerializeField] TextMeshPro countText;
+
+    [SerializeField]
+    PlayerPickUpSystem playerGifts;
     private void Start()
     {
         levelProgressionSlider.value = 0;
+        countText.text = "x" + playerGifts.curGifts.ToString();
     }
     public override void Init()
     {
@@ -43,6 +48,17 @@ public class UiManager : MonoSingleton<UiManager>
         else
             levelProgressionSlider.DOValue(levelProgressionSlider.value - 0.2f, 0.25f);
     }
+
+    public void ChangeGiftValue()
+    {
+        countText.text = "x" + playerGifts.curGifts.ToString();
+    }
+    public void ChangeGiftValue(int value)
+    {
+        playerGifts.SetGiftCount(value);
+        countText.text = "x" + playerGifts.curGifts.ToString();
+    }
+
     // Ui Buttons
     public void PlayButton(GameObject playBtn)
     {       
@@ -63,6 +79,11 @@ public class UiManager : MonoSingleton<UiManager>
         ShowHideLevelFailedUi(false);
         Init();
         GameManager.instance.RestartLevel();
+    }
+    public void HideUI()
+    {
+        levelProgressionSlider.transform.DOScaleX(0, 0.25f);
+
     }
 
 

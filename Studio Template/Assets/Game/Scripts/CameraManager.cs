@@ -16,5 +16,10 @@ public class CameraManager : MonoSingleton<CameraManager>
         camMain.m_Priority = 15;
         startCam.m_Priority = 10;
     }
+    public void EnableEndCam()
+    {
+        camMain.m_Priority = 10;
+        camFinish.m_Priority = 15;
+    }
     
 }
