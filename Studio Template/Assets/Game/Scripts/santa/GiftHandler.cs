@@ -34,21 +34,23 @@ public class GiftHandler : MonoSingleton<GiftHandler>
         
         curBoxIndex++;
     }
-    public void RemoveItem_CheckPoint(int amount)
+    public void RemoveItem_CheckPoint(int amount,Transform giftThrowingPos,Transform giftEnabling)
     {
         int totalGifts = giftPacks.Count;
         
         for(int i=1; i<=amount;i++)
         {
             giftPacks[totalGifts - i].FollowNext(null);
+            giftPacks[totalGifts - i].transform.DOMove(giftThrowingPos.position, 0.5f);
             giftPacks.RemoveAt(totalGifts - i);
         }
+        giftEnabling.DOScale(1, 0.25f).SetEase(Ease.InOutSine);
         curBoxIndex = giftPacks.Count;
 
         UiManager.instance.ChangeGiftValue();
     }
 
-    public void RemoveItems_Obstacle(int boxID)
+      public void RemoveItems_Obstacle(int boxID)
     {
         int deletingIndex = -1;
         int totalGifts = giftPacks.Count;

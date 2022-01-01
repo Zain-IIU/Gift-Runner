@@ -12,8 +12,14 @@ public class Tree : MonoBehaviour
     GameObject treeDescription;
 
     [SerializeField]
+    Transform giftThrowingSpot;
+    [SerializeField]
+    Transform giftsToEnable;
+    [SerializeField]
     TextMeshPro gifText;
     // Start is called before the first frame update
+
+
     void Start()
     {
         gifText.text ="x"+ giftToDistribute.ToString();
@@ -37,5 +43,22 @@ public class Tree : MonoBehaviour
     {
         return giftToDistribute;
     }
+
+    public Transform getGiftSpot()
+    {
+        return giftThrowingSpot;
+    }
+    
+    public Transform getGiftstoEnable()
+    {
+        return giftsToEnable;
+    }
+
+    public void EnableGifts()
+    {
+        giftsToEnable.DOScale(1, 0.25f).SetEase(Ease.InOutSine);
+    }
+
+    
 
 }

@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void StartPlayer()
     {
+        Anim.SetTrigger("Move");
         curSpeed = moveSpeed;
     }
 
@@ -64,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
             CameraManager.instance.EnableEndCam();
             StopPlayer();
             hasReachedEnd = true;
-            transform.DORotateQuaternion(Quaternion.Euler(0, 180f, 0), 0.25f);
+            yRot = 180;
         }
     }
 }

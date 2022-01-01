@@ -13,6 +13,7 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
     [SerializeField] Image giftTimerImage;
     
     public int curGifts;
+    [SerializeField] float stopTimer;
     private void Start()
     {
         Anim = GetComponent<Animator>();
@@ -27,32 +28,28 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
     {
         if(other.gameObject.CompareTag("Gift"))
         {
-            
             GiftHandler.instance.AddNextBox(other.gameObject.GetComponent<GiftBox>());
             curGifts++;
             UiManager.instance.ChangeGiftValue();
-           // Destroy(other);
         }
-        if (other.gameObject.CompareTag("Tree"))
+        if (other.TryGetComponent<Tree>(out var tree))
         {
             GetComponent<PlayerMovement>().StopPlayer();
-            StartCoroutine(nameof(StopForDeliveringGifts),other);
-          //  Destroy(other);
+            StartCoroutine(nameof(StopForDeliveringGifts),tree);
+            Destroy(other);
         }
 
 
     }
 
-    IEnumerator StopForDeliveringGifts(Collider other)
+    IEnumerator StopForDeliveringGifts(Tree tree)
     {
-        
-        giftTimerImage.DOFillAmount(1, 2);
-        yield return new WaitForSeconds(2f);
-        other.gameObject.GetComponent<Tree>().CheckGiftCount();
-        if (curGifts >= other.gameObject.GetComponent<Tree>().treeGifts())
+        giftTimerImage.DOFillAmount(1, stopTimer);
+        yield return new WaitForSeconds(stopTimer/2);
+        if (curGifts >= tree.treeGifts())
         {
-            GiftHandler.instance.RemoveItem_CheckPoint(other.gameObject.GetComponent<Tree>().treeGifts());
-            curGifts -= other.gameObject.GetComponent<Tree>().treeGifts();
+            GiftHandler.instance.RemoveItem_CheckPoint(tree.treeGifts(), tree.getGiftSpot(), tree.getGiftstoEnable());
+            curGifts -= tree.treeGifts();
             Debug.Log("AT CHECKPOINT");
         }
         else
@@ -60,10 +57,13 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
             GiftHandler.instance.ClearTheList();
             curGifts = 0;
         }
+        yield return new WaitForSeconds(stopTimer);
+
+        tree.CheckGiftCount();
+        
         UiManager.instance.ChangeGiftValue();
         giftTimerImage.fillAmount = 0;
-        Anim.SetTrigger("Move");
         GetComponent<PlayerMovement>().StartPlayer();
-        Destroy(other);
+       
     }
 }
