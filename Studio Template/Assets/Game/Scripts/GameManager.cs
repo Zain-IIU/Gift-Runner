@@ -17,7 +17,8 @@ public class GameManager : MonoSingleton<GameManager>
             PlayerPrefs.Save();
         }
     }
-       
+
+    public event Action OnGameStarted;
  
     [SerializeField] GameObject[] levels;   
     void Start()
@@ -32,6 +33,7 @@ public class GameManager : MonoSingleton<GameManager>
         if(Input.GetMouseButtonDown(0) && !hasStarted)
         {
             hasStarted = true;
+            OnGameStarted?.Invoke();
         }
     }
     void InitLevel()
@@ -92,7 +94,7 @@ public class GameManager : MonoSingleton<GameManager>
 
         MAliGMethods.Wait(() => {
 
-            UiManager.instance.ShowHideLevelCompleteUi(true);
+          //  UiManager.instance.ShowHideLevelCompleteUi(true);
 
         }, 1.5f, this);
 

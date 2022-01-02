@@ -21,6 +21,13 @@ public class PlayerMovement : MonoBehaviour
         RB = GetComponent<Rigidbody>();
         Anim = GetComponent<Animator>();
         curSpeed = moveSpeed;
+        StopPlayer();
+        GameManager.instance.OnGameStarted += StartPlayer;
+    }
+
+    private void MovePlayer()
+    {
+        StartPlayer();
     }
 
     // Update is called once per frame

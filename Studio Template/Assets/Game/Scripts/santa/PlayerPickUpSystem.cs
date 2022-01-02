@@ -26,11 +26,15 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
     public void SetGiftCount(int value) => curGifts = value;
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Gift"))
+        if(other.TryGetComponent<GiftBox>(out var gift))
         {
-            GiftHandler.instance.AddNextBox(other.gameObject.GetComponent<GiftBox>());
-            curGifts++;
-            UiManager.instance.ChangeGiftValue();
+            if(!gift.hasPickedBefore())
+            {
+                GiftHandler.instance.AddNextBox(gift);
+                curGifts++;
+                UiManager.instance.ChangeGiftValue();
+                gift.hasPicked(true);
+            }
         }
         if (other.TryGetComponent<Tree>(out var tree))
         {
@@ -38,7 +42,6 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
             StartCoroutine(nameof(StopForDeliveringGifts),tree);
             Destroy(other);
         }
-
 
     }
 

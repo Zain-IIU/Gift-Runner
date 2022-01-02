@@ -21,7 +21,9 @@ public class GiftBox : MonoBehaviour
 
     int boxLevel;
 
-  
+
+    bool hasbeenPickedUp;
+
     private void Start()
     {
         boxLevel = 0;
@@ -33,21 +35,30 @@ public class GiftBox : MonoBehaviour
         return customID;
     }
 
+    public bool hasPickedBefore()
+    {
+        return hasbeenPickedUp;
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (targetToFollow)
             FollowTarget(); 
     }
+
     public void FollowNext(Transform newTarget)
     {
         targetToFollow = newTarget;
     }
 
+    public void hasPicked(bool setValue) => hasbeenPickedUp = setValue;
+
     private void  FollowTarget()
     {
         transform.DOMove(targetToFollow.position+offset,lerpTime);
     }
+
     public void UpgradeBox()
     {
         transform.DOScale(Vector3.one * 1.25f, 0.25f).OnComplete(() =>
@@ -63,6 +74,7 @@ public class GiftBox : MonoBehaviour
                 boxes[i].SetActive(false);
         }
     }
+
 
     private void OnTriggerEnter(Collider other)
     {

@@ -13,14 +13,28 @@ public class UiManager : MonoSingleton<UiManager>
 
     [SerializeField] Slider levelProgressionSlider;
     [SerializeField] TextMeshPro countText;
-
+    [SerializeField] RectTransform mainMenuUI;
+    [SerializeField] RectTransform winPanel;
     [SerializeField]
     PlayerPickUpSystem playerGifts;
+    [SerializeField]
+    float tweeningTime;
+    [SerializeField]
+    Ease easeType;
     private void Start()
     {
         levelProgressionSlider.value = 0;
         countText.text = "x" + playerGifts.curGifts.ToString();
+        GameManager.instance.OnGameStarted += StartGameUI;
     }
+
+    private void StartGameUI()
+    {
+        mainMenuUI.DOScale(0, tweeningTime).SetEase(easeType);
+        levelProgressionSlider.transform.parent.DOScaleX(1, tweeningTime);
+        countText.transform.parent.DOScale(new Vector2(0.43f, 0.49f), tweeningTime);
+    }
+
     public override void Init()
     {
         TapText(false);
@@ -32,13 +46,14 @@ public class UiManager : MonoSingleton<UiManager>
     {
         panelFailed.SetActiveAll(value);
     }
-    public void ShowHideLevelCompleteUi(bool value)
+    public void ShowHideLevelWinUi(bool value)
     {
-        panelLevelComplete.SetActiveAll(value);
+        winPanel.gameObject.SetActive(value);
+        winPanel.DOScale(1, tweeningTime).SetEase(easeType);
     }
+   
     public void TapText(bool isShow)
     {
-       
     }
 
     public void TweenProgression(bool toIncrement)
@@ -69,7 +84,7 @@ public class UiManager : MonoSingleton<UiManager>
 
     public void BtnNextLevel()
     {
-        ShowHideLevelCompleteUi(false);
+        //ShowHideLevelCompleteUi(false);
         Init();
         GameManager.instance.StartNewLevel();
     }
