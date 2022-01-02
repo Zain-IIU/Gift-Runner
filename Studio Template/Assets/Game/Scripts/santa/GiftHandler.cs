@@ -84,6 +84,18 @@ public class GiftHandler : MonoSingleton<GiftHandler>
         giftPacks.Clear();
         curBoxIndex = 0;
     }
+    [SerializeField]
+    Transform[] placetoDistribute;
+ 
+    public void DistributeGifts()
+    {
+        int totalGifts = giftPacks.Count;
+        for(int i=0;i<placetoDistribute.Length;i++)
+        {
+            Debug.Log(i);
+            giftPacks[i].FollowNext(placetoDistribute[i]);
+        }
+    }
 
 }
 

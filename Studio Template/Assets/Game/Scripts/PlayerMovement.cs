@@ -65,7 +65,6 @@ public class PlayerMovement : MonoBehaviour
             CameraManager.instance.EnableEndCam();
             StopPlayer();
             hasReachedEnd = true;
-            yRot = 180;
         }
     }
 }

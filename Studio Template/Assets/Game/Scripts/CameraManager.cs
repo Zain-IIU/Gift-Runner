@@ -18,7 +18,7 @@ public class CameraManager : MonoSingleton<CameraManager>
     }
     public void EnableEndCam()
     {
-        camMain.m_Priority = 10;
+        camMain.gameObject.SetActive(false);
         camFinish.m_Priority = 15;
     }
     

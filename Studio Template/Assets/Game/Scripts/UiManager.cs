@@ -82,8 +82,11 @@ public class UiManager : MonoSingleton<UiManager>
     }
     public void HideUI()
     {
-        levelProgressionSlider.transform.DOScaleX(0, 0.25f);
-
+        levelProgressionSlider.transform.parent.DOScaleX(0, 0.25f);
+        countText.transform.parent.DOScaleX(0, 0.25f).OnComplete(() =>
+        {
+            GiftHandler.instance.DistributeGifts();
+        });
     }
 
 
