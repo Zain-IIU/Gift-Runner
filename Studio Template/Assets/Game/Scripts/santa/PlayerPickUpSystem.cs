@@ -49,6 +49,7 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
     {
         giftTimerImage.DOFillAmount(1, stopTimer);
         yield return new WaitForSeconds(stopTimer/2);
+        tree.CheckGiftCount();
         if (curGifts >= tree.treeGifts())
         {
             GiftHandler.instance.RemoveItem_CheckPoint(tree.treeGifts(), tree.getGiftSpot(), tree.getGiftstoEnable());
@@ -62,7 +63,7 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
         }
         yield return new WaitForSeconds(stopTimer);
 
-        tree.CheckGiftCount();
+      
         
         UiManager.instance.ChangeGiftValue();
         giftTimerImage.fillAmount = 0;

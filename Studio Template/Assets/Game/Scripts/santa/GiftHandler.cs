@@ -91,12 +91,14 @@ public class GiftHandler : MonoSingleton<GiftHandler>
  
     public void DistributeGifts()
     {
-        for(int i=0;i<placetoDistribute.Length;i++)
+        confettiVFX.SetActive(true);
+        UiManager.instance.ShowHideLevelWinUi(true);
+
+        for (int i=0;i<placetoDistribute.Length;i++)
         {
             giftPacks[i].FollowNext(placetoDistribute[i]);
         }
-        confettiVFX.SetActive(true);
-        UiManager.instance.ShowHideLevelWinUi(true);
+      
     }
 
 }
