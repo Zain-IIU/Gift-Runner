@@ -47,6 +47,7 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
 
     IEnumerator StopForDeliveringGifts(Tree tree)
     {
+        CameraManager.instance.EnableCheckPointCamera(true);
         giftTimerImage.DOFillAmount(1, stopTimer);
         yield return new WaitForSeconds(stopTimer/2);
         tree.CheckGiftCount();
@@ -63,8 +64,8 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
         }
         yield return new WaitForSeconds(stopTimer);
 
-      
-        
+
+        CameraManager.instance.EnableCheckPointCamera(false);
         UiManager.instance.ChangeGiftValue();
         giftTimerImage.fillAmount = 0;
         GetComponent<PlayerMovement>().StartPlayer();
