@@ -23,6 +23,7 @@ public class ClothSystem : MonoSingleton<ClothSystem>
     }
     public void UpdateClothing()
     {
+        PlayerParticleSystem.instance.PlayCorrectVX();
         foreach (GameObject model in models)
             model.SetActive(false);
         index++;

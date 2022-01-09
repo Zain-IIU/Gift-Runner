@@ -30,9 +30,11 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
         {
             if(!gift.hasPickedBefore())
             {
+                gift.transform.DOScale(0, 0.25f).SetEase(Ease.InOutSine);
                 GiftHandler.instance.AddNextBox(gift);
                 curGifts++;
                 UiManager.instance.ChangeGiftValue();
+                UiManager.instance.TweenProgression(true);
                 gift.hasPicked(true);
             }
         }
@@ -40,7 +42,6 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
         {
             GetComponent<PlayerMovement>().StopPlayer();
             StartCoroutine(nameof(StopforChangingCloths),tree);
-           // Destroy(other);
         }
 
     }

@@ -58,10 +58,20 @@ public class UiManager : MonoSingleton<UiManager>
 
     public void TweenProgression(bool toIncrement)
     {
+       
+
         if (toIncrement)
-            levelProgressionSlider.DOValue(levelProgressionSlider.value + 0.2f, 0.25f);
+            levelProgressionSlider.DOValue(levelProgressionSlider.value + 0.5f, 0.25f);
         else
-            levelProgressionSlider.DOValue(levelProgressionSlider.value - 0.2f, 0.25f);
+            levelProgressionSlider.DOValue(levelProgressionSlider.value - 0.5f, 0.25f);
+        if (levelProgressionSlider.value >= 0.9f)
+        {
+            Debug.Log("Change the Cloths");
+            ClothSystem.instance.UpdateClothing();
+            levelProgressionSlider.DOValue(0, 0.25f);
+        }
+
+
     }
 
     public void ChangeGiftValue()
