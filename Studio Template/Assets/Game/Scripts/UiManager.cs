@@ -104,6 +104,14 @@ public class UiManager : MonoSingleton<UiManager>
         });
     }
 
+    int avatarIndex;
+    [SerializeField]
+    Sprite[] avatars;
+    public void UpdateAvatar(Image avatarImage)
+    {
+        avatarIndex++;
+        avatarImage.transform.GetChild(0).GetComponent<Image>().sprite = avatars[avatarIndex];
+    }
 
     
 

@@ -18,7 +18,8 @@ public class Tree : MonoBehaviour
     [SerializeField]
     TextMeshPro gifText;
     // Start is called before the first frame update
-
+    [SerializeField]
+    Transform door;
 
     void Start()
     {
@@ -58,7 +59,10 @@ public class Tree : MonoBehaviour
     {
         giftsToEnable.DOScale(1, 0.25f).SetEase(Ease.InOutSine);
     }
+    public void ClosetheDoor()
+    {
+        door.DORotateQuaternion(Quaternion.Euler(0, 0, 0), 0.5f).SetEase(Ease.InOutSine);
+    }
 
-    
 
 }

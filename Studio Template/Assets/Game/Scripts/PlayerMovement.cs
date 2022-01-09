@@ -16,18 +16,21 @@ public class PlayerMovement : MonoBehaviour
     bool hasReachedEnd;
 
     Rigidbody RB;
+
+    bool isPoor;
     private void Start()
     {
         RB = GetComponent<Rigidbody>();
         Anim = GetComponent<Animator>();
         curSpeed = moveSpeed;
         StopPlayer();
-        GameManager.instance.OnGameStarted += StartPlayer;
+        GameManager.instance.OnGameStarted += MovePlayer;
+        isPoor = true;
     }
 
     private void MovePlayer()
     {
-        StartPlayer();
+        StartPlayer(isPoor);
     }
 
     // Update is called once per frame
@@ -57,9 +60,13 @@ public class PlayerMovement : MonoBehaviour
         curSpeed = 0f;
         Anim.SetTrigger("Stop");
     }
-    public void StartPlayer()
+    public void StartPlayer(bool value)
     {
-        Anim.SetTrigger("Move");
+        if(value)
+            Anim.SetTrigger("Move_Sad");
+        else
+            Anim.SetTrigger("Move");
+
         curSpeed = moveSpeed;
     }
 

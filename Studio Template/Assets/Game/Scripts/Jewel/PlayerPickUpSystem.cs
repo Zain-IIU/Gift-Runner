@@ -40,15 +40,24 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
         {
             GetComponent<PlayerMovement>().StopPlayer();
             StartCoroutine(nameof(StopforChangingCloths),tree);
-            Destroy(other);
+           // Destroy(other);
         }
 
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent<Tree>(out var tree))
+        {
+            tree.gameObject.transform.DOScaleY(0.1f, 0.25f).SetEase(Ease.InBounce);
+        }
     }
 
     IEnumerator StopforChangingCloths(Tree tree)
     {
         CameraManager.instance.EnableCheckPointCamera(true);
         giftTimerImage.DOFillAmount(1, stopTimer);
+        tree.ClosetheDoor();
         yield return new WaitForSeconds(stopTimer/2);
         tree.CheckGiftCount();
         if (curGifts >= tree.treeGifts())
@@ -68,8 +77,9 @@ public class PlayerPickUpSystem : MonoSingleton<PlayerPickUpSystem>
         CameraManager.instance.EnableCheckPointCamera(false);
         UiManager.instance.ChangeGiftValue();
         giftTimerImage.fillAmount = 0;
+        UiManager.instance.UpdateAvatar(giftTimerImage);
         ClothSystem.instance.UpdateClothing();
-        GetComponent<PlayerMovement>().StartPlayer();
+        GetComponent<PlayerMovement>().StartPlayer(false);
        
     }
 }
